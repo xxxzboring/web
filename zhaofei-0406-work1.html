@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GitHub</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: #010409;
+    color: #f0f6fc;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { text-decoration: none; color: inherit; }
+  button { font: inherit; color: inherit; background: none; border: none; padding: 0; cursor: pointer; }
+  .page { width: 1094px; }
+
+  /* ---------- top global navigation ---------- */
+  .topbar {
+    display: flex;
+    align-items: center;
+    height: 63px;
+    padding: 0 14px 0 18px;
+    background: #010409;
+    border-bottom: 1px solid #3d444d;
+  }
+  .menu-btn {
+    flex: none;
+    width: 31px; height: 31px;
+    border: 1px solid #3d444d;
+    border-radius: 6px;
+    color: #9198a1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo { flex: none; margin-left: 13px; color: #f0f6fc; display: flex; }
+  .topnav { margin-left: 14px; font-size: 14px; color: #f0f6fc; white-space: nowrap; }
+  .topbar-gap { flex: 1; }
+  .search {
+    flex: none;
+    width: 190px; height: 31px;
+    border: 1px solid #3d444d;
+    border-radius: 6px;
+    display: flex; align-items: center;
+    padding-left: 13px;
+    color: #9198a1;
+  }
+  .search svg { flex: none; margin-right: 11px; }
+  .search span { font-size: 14px; white-space: nowrap; }
+  .split-btn {
+    flex: none;
+    margin-left: 7px;
+    width: 55px; height: 31px;
+    border: 1px solid #3d444d;
+    border-radius: 6px;
+    display: flex; align-items: center;
+    color: #9198a1;
+  }
+  .split-btn .glyph { margin-left: 6px; display: flex; }
+  .split-btn .hr { width: 1px; height: 100%; background: #3d444d; margin-left: 7px; }
+  .split-btn .caret { margin-left: 8px; display: flex; }
+  .ghost-slot {
+    flex: none;
+    margin-left: 12px;
+    width: 13px; height: 31px;
+    border: 1px solid #3d444d;
+    border-radius: 6px;
+  }
+  .new-btn {
+    flex: none;
+    margin-left: 2px;
+    width: 46px; height: 31px;
+    border: 1px solid #3d444d;
+    border-radius: 6px;
+    display: flex; align-items: center;
+    padding-left: 9px;
+    color: #9198a1;
+  }
+  .new-btn .caret { margin-left: 11px; display: flex; }
+  .sq-btn {
+    flex: none;
+    width: 31px; height: 31px;
+    margin-left: 9px;
+    border: 1px solid #3d444d;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: #9198a1;
+  }
+  .avatar {
+    flex: none;
+    margin-left: 11px;
+    width: 31px; height: 31px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: block;
+  }
+
+  /* ---------- two column body ---------- */
+  .body { display: flex; min-height: 765px; }
+  .sidebar {
+    flex: none;
+    width: 321px;
+    background: #0d1117;
+    border-right: 1px solid #2f353d;
+    padding: 17px 17px 24px 10px;
+  }
+  .side-item { display: flex; align-items: center; height: 33px; color: #f0f6fc; }
+  .side-item .mark { flex: none; width: 5px; height: 23px; border-radius: 3px; margin-right: 3px; }
+  .side-item.on .mark { background: #1f6feb; }
+  .side-item .pill {
+    flex: 1;
+    display: flex; align-items: center;
+    height: 33px;
+    padding-left: 8px;
+    border-radius: 6px;
+    gap: 9px;
+  }
+  .side-item.on .pill { background: #1e242a; }
+  .side-item svg { flex: none; color: #9198a1; }
+  .side-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 46px 13px 0 16px;
+    color: #9198a1;
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .side-head svg { display: block; color: #9198a1; }
+  .repo { display: flex; align-items: center; gap: 7px; margin: 15px 0 0 15px; color: #f0f6fc; font-size: 14px; }
+  .repo .ra { flex: none; width: 18px; height: 18px; border-radius: 50%; overflow: hidden; display: block; }
+  .repo b { font-weight: 600; }
+
+  /* ---------- main column ---------- */
+  .main { flex: none; width: 679px; margin-left: 25px; padding-bottom: 20px; }
+  .badge-row { display: flex; align-items: center; justify-content: flex-end; gap: 11px; padding: 32px 9px 0 0; }
+  .preview-badge {
+    border: 1px solid #3fb950;
+    color: #3fb950;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 1px 8px;
+  }
+  .greet { display: flex; align-items: center; margin-top: 25px; padding-left: 6px; color: #9198a1; }
+  .greet .glyph { flex: none; margin-right: 13px; display: flex; }
+  .greet h1 { margin: 0; font-size: 24px; font-weight: 600; line-height: 30px; color: #f0f6fc; }
+
+  .panel {
+    position: relative;
+    margin-top: 14px;
+    height: 125px;
+    background: #0d1117;
+    border: 1px solid #3d444d;
+    border-radius: 10px;
+  }
+  .panel .ph { padding: 17px 17px 0; font-size: 16px; color: #9198a1; }
+  .tools { position: absolute; left: 8px; bottom: 8px; display: flex; align-items: center; }
+  .tool {
+    height: 33px;
+    border: 1px solid #2b3139;
+    border-radius: 6px;
+    display: flex; align-items: center;
+    font-size: 14px;
+    color: #f0f6fc;
+  }
+  .tool .ico { display: flex; color: #9198a1; }
+  .tool.ask { width: 92px; padding-left: 15px; }
+  .tool.ask .ico { margin-right: 7px; }
+  .tool.ask .caret { margin-left: 16px; color: #9198a1; display: flex; }
+  .tool.repos { width: 164px; margin-left: 5px; padding-left: 15px; color: #f0f6fc; }
+  .tool.repos .caret { color: #9198a1; display: flex; margin-right: 15px; }
+  .tool.add { width: 31px; margin-left: 5px; justify-content: center; color: #9198a1; }
+  .tool.plain { border: none; margin-left: 28px; color: #9198a1; }
+  .tool.plain .ico { margin-right: 9px; }
+  .tool.plain .caret { margin-left: 7px; color: #9198a1; display: flex; }
+  .tool.opts { border: none; margin-left: 31px; color: #9198a1; }
+
+  .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12.7px; margin-top: 13px; }
+  .chip {
+    height: 39px;
+    border: 1px solid #2b3139;
+    border-radius: 10px;
+    display: flex; align-items: center;
+    gap: 12px;
+    padding: 0 16px;
+    font-size: 14px;
+    color: #f0f6fc;
+  }
+  .chip svg { flex: none; color: #9198a1; }
+  .chip:nth-child(4) { min-width: 144px; }
+  .chip:nth-child(5) { min-width: 95px; }
+  .chip:nth-child(6) { min-width: 155px; }
+
+  .copilot {
+    position: relative;
+    overflow: hidden;
+    margin-top: 13px;
+    height: 80px;
+    background: #151b23;
+    border: 1px solid #3d444d;
+    border-radius: 10px;
+    display: flex; align-items: center;
+    padding: 0 28px 0 17px;
+  }
+  .copilot .glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(60% 150% at 100% 45%, rgba(27,67,27,.5), rgba(27,67,27,.15) 45%, rgba(27,67,27,0) 95%);
+    pointer-events: none;
+  }
+  .copilot .info { position: relative; }
+  .copilot .title-row { display: flex; align-items: center; gap: 7px; }
+  .copilot .title { font-size: 16px; font-weight: 600; color: #f0f6fc; }
+  .copilot .new {
+    border: 1px solid #238636;
+    color: #3fb950;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 2px 8px;
+  }
+  .copilot .desc { margin-top: 3px; font-size: 14px; color: #9198a1; }
+  .copilot .dl {
+    position: relative;
+    margin-left: auto;
+    height: 32px;
+    padding: 0 39px;
+    background: #212830;
+    border: 1px solid #3d444d;
+    border-radius: 6px;
+    color: #f0f6fc;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .section { margin-top: 32px; }
+  .section-head { display: flex; align-items: center; margin-bottom: 13px; }
+  .section-head h2 { margin: 0 auto 0 0; font-size: 14px; font-weight: 600; line-height: 21px; color: #9198a1; }
+  .section-head a { font-size: 14px; color: #4493f8; }
+  .section-head svg { flex: none; margin-left: 15px; margin-right: 4px; color: #9198a1; }
+  .empty {
+    height: 65px;
+    background: #0d1117;
+    border: 1px solid #2f353d;
+    border-radius: 8px;
+    display: flex; align-items: center;
+    padding-left: 18px;
+    font-size: 14px;
+    color: #9198a1;
+  }
+  .tail {
+    margin-top: 41px;
+    height: 18px;
+    background: #0d1117;
+    border: 1px solid #2f353d;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+  }
+
+  /* shared avatar artwork */
+  .pfp { width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <button class="menu-btn" aria-label="Open global navigation menu">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+        <path d="M1 2.7h13M1 7.5h13M1 12.3h13"/>
+      </svg>
+    </button>
+
+    <span class="logo" aria-label="Home">
+      <svg width="31" height="30" viewBox="0 0 31 30" fill="none" aria-hidden="true">
+        <circle cx="15.5" cy="14.8" r="12" stroke="currentColor" stroke-width="6.7"/>
+        <path d="M9.4 7.1h11.6" stroke="currentColor" stroke-width="1.7"/>
+        <path d="M6.8 21.9h6.2" stroke="currentColor" stroke-width="2.7"/>
+      </svg>
+    </span>
+
+    <a class="topnav" href="#">Dashboard</a>
+
+    <div class="topbar-gap"></div>
+
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <circle cx="6.4" cy="6.4" r="4.9"/>
+        <path d="M10.2 10.2 14.8 14.8" stroke-linecap="round"/>
+      </svg>
+      <span>Type / to search</span>
+    </div>
+
+    <button class="split-btn" aria-label="Copilot menu">
+      <span class="glyph">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M4.7 3.2V1.7M11.3 3.2V1.7"/>
+          <rect x="1.6" y="3.2" width="12.8" height="12.6" rx="2.6"/>
+          <path d="M8 4.9v3.3M4.6 8.7h6.8"/>
+          <path d="M5.9 11.4h1.9M9.4 11.4h1.9"/>
+          <path d="M8 15.8v.1"/>
+        </svg>
+      </span>
+      <span class="hr"></span>
+      <span class="caret">
+        <svg width="9" height="6" viewBox="0 0 9 6" aria-hidden="true"><path d="M0 0h9L4.5 6z" fill="currentColor"/></svg>
+      </span>
+    </button>
+
+    <span class="ghost-slot" aria-hidden="true"></span>
+
+    <button class="new-btn" aria-label="Create new">
+      <svg width="12" height="14" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <path d="M6 .9v12M0 6.9h12"/>
+      </svg>
+      <span class="caret">
+        <svg width="9" height="6" viewBox="0 0 9 6" aria-hidden="true"><path d="M0 0h9L4.5 6z" fill="currentColor"/></svg>
+      </span>
+    </button>
+
+    <button class="sq-btn" aria-label="Issues">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="6.6" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="8" cy="8" r="1.7" fill="currentColor"/>
+      </svg>
+    </button>
+
+    <button class="sq-btn" aria-label="Pull requests">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+        <circle cx="4" cy="3.2" r="1.9"/>
+        <circle cx="4" cy="12.6" r="1.9"/>
+        <path d="M4 5.1v5.6"/>
+        <circle cx="11.6" cy="12.6" r="1.9"/>
+        <path d="M9.9 3.2H10l1.6 1.6v6"/>
+      </svg>
+    </button>
+
+    <button class="sq-btn" aria-label="Projects">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+        <rect x="1.7" y="1.4" width="12.6" height="13.2" rx="2.2"/>
+        <path d="M1.7 7.1h12.6"/>
+        <path d="M6.2 10.4h3.6"/>
+      </svg>
+    </button>
+
+    <button class="sq-btn" aria-label="Notifications">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+        <path d="M8 1.5c-3 0-5 2.2-5 5.2 0 3.6-1.1 4.6-1.1 4.6h12.2S13 10.3 13 6.7c0-3-2-5.2-5-5.2z"/>
+        <path d="M6.2 13.3a1.9 1.9 0 0 0 3.6 0"/>
+      </svg>
+    </button>
+
+    <span class="avatar" aria-label="xxxzboring">
+      <svg class="pfp" viewBox="0 0 31 31" aria-hidden="true">
+        <rect width="31" height="31" fill="#f0f0f0"/>
+        <circle cx="15.5" cy="15.5" r="15.5" fill="#f0f0f0"/>
+        <rect x="11.6" y="10.6" width="2.6" height="2.4" fill="#d17ca3"/>
+        <rect x="17" y="10.6" width="2.6" height="2.4" fill="#d17ca3"/>
+        <rect x="11" y="14.4" width="9" height="1.9" fill="#d17ca3"/>
+        <rect x="8" y="17.4" width="2.5" height="2.2" fill="#d17ca3"/>
+        <rect x="13" y="17.4" width="3" height="2.2" fill="#d17ca3"/>
+        <rect x="18.4" y="17.4" width="3" height="2.2" fill="#d17ca3"/>
+        <rect x="14.3" y="20.3" width="2.4" height="2.1" fill="#d17ca3"/>
+      </svg>
+    </span>
+  </header>
+
+  <div class="body">
+    <aside class="sidebar">
+      <nav>
+        <a class="side-item on" href="#">
+          <span class="mark"></span>
+          <span class="pill">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <path d="M8 1.6 1.3 7.2v7.2h5V10h3.4v4.4h5V7.2z"/>
+            </svg>
+            <span>Home</span>
+          </span>
+        </a>
+        <a class="side-item" href="#">
+          <span class="mark"></span>
+          <span class="pill">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <circle cx="8" cy="8" r="6.6"/>
+              <path d="M1.4 8h13.2"/>
+              <path d="M8 1.4c1.9 1.9 1.9 11.3 0 13.2-1.9-1.9-1.9-11.3 0-13.2z"/>
+            </svg>
+            <span>Feed</span>
+          </span>
+        </a>
+      </nav>
+
+      <div class="side-head">
+        <span>Top repositories</span>
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <circle cx="6.4" cy="6.4" r="4.9"/>
+          <path d="M10.2 10.2 14.8 14.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <a class="repo" href="#">
+        <span class="ra">
+          <svg class="pfp" viewBox="0 0 31 31" aria-hidden="true">
+            <rect width="31" height="31" fill="#f0f0f0"/>
+            <circle cx="15.5" cy="15.5" r="15.5" fill="#f0f0f0"/>
+            <rect x="11.6" y="10.6" width="2.6" height="2.4" fill="#d17ca3"/>
+            <rect x="17" y="10.6" width="2.6" height="2.4" fill="#d17ca3"/>
+            <rect x="11" y="14.4" width="9" height="1.9" fill="#d17ca3"/>
+            <rect x="8" y="17.4" width="2.5" height="2.2" fill="#d17ca3"/>
+            <rect x="13" y="17.4" width="3" height="2.2" fill="#d17ca3"/>
+            <rect x="18.4" y="17.4" width="3" height="2.2" fill="#d17ca3"/>
+            <rect x="14.3" y="20.3" width="2.4" height="2.1" fill="#d17ca3"/>
+          </svg>
+        </span>
+        <span><b>xxxzboring</b>/Obsidiangit</span>
+      </a>
+    </aside>
+
+    <main class="main">
+      <div class="badge-row">
+        <span class="preview-badge">Preview</span>
+        <svg width="8" height="5" viewBox="0 0 9 6" aria-hidden="true"><path d="M0 0h9L4.5 6z" fill="#9198a1"/></svg>
+      </div>
+
+      <div class="greet">
+        <span class="glyph">
+          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" aria-hidden="true">
+            <ellipse cx="13" cy="10.4" rx="11" ry="8.5" stroke="currentColor" stroke-width="4.6"/>
+            <path d="M12.8 2.6v7.8" stroke="currentColor" stroke-width="4.6"/>
+            <path d="M7.1 8.9h11.4" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M8.4 10.1l4.3 5.2 4.3-5.2" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <h1>Good afternoon, xxxzboring!</h1>
+      </div>
+
+      <div class="panel">
+        <div class="ph">Ask anything or type @ to add context</div>
+        <div class="tools">
+          <div class="tool ask">
+            <span class="ico">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                <rect x="1.3" y="1.3" width="13.4" height="13.4" rx="2.4"/>
+                <path d="M4 9.7h8M5.7 10.4 8 14.2l2.3-3.8"/>
+              </svg>
+            </span>
+            <span>Ask</span>
+            <span class="caret">
+              <svg width="9" height="6" viewBox="0 0 9 6" aria-hidden="true"><path d="M0 0h9L4.5 6z" fill="currentColor"/></svg>
+            </span>
+          </div>
+
+          <div class="tool repos">
+            <span class="caret">
+              <svg width="9" height="6" viewBox="0 0 9 6" aria-hidden="true"><path d="M0 0h9L4.5 6z" fill="currentColor"/></svg>
+            </span>
+            <span>All repositories</span>
+          </div>
+
+          <div class="tool add">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M6 .7v10.6M.7 6h10.6"/>
+            </svg>
+          </div>
+
+          <div class="tool plain">
+            <span class="ico">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M8 1.5 8 14.5M4 10.2l4 4.3 4-4.3M3 6.4h10"/>
+              </svg>
+            </span>
+            <span>Auto</span>
+            <span class="caret">
+              <svg width="9" height="6" viewBox="0 0 9 6" aria-hidden="true"><path d="M0 0h9L4.5 6z" fill="currentColor"/></svg>
+            </span>
+          </div>
+
+          <div class="tool opts"><span>Optimized for: Balance</span></div>
+        </div>
+      </div>
+
+      <div class="chips">
+        <div class="chip">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <rect x="4.7" y="4.3" width="6.6" height="9.2" rx="3.3"/>
+            <path d="M4.8 7.4H.8M4.9 11H1.8M11.2 7.4h4M11.1 11h3.1M6.2 3.3 4.9.9M9.8 3.3l1.3-2.4M8 4.3V.8"/>
+          </svg>
+          <span>Debug</span>
+        </div>
+
+        <div class="chip">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <path d="M3.7 3.5C5.7 1.3 10.3 1.3 12.3 3.5" stroke-linecap="round"/>
+            <path d="M3.2 4.5.7 13.6M12.8 4.5l2.5 9.1"/>
+            <circle cx="8" cy="9.3" r="2.2"/>
+            <path d="M.5 14.7h4.7M10.8 14.7h4.7" stroke-linecap="round"/>
+          </svg>
+          <span>Agent</span>
+        </div>
+
+        <div class="chip">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.2"/>
+          </svg>
+          <span>Create issue</span>
+        </div>
+
+        <div class="chip">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <rect x="1.6" y=".6" width="12.8" height="14.6" rx="1.8"/>
+            <path d="M9.2 4h4.6v3.6"/>
+          </svg>
+          <span>Write code</span>
+        </div>
+
+        <div class="chip">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <circle cx="3.9" cy="2.6" r="2.1"/>
+            <circle cx="3.9" cy="13.4" r="2.1"/>
+            <path d="M3.9 4.7v6.6"/>
+            <circle cx="12.1" cy="2.6" r="2.1"/>
+            <path d="M12.1 4.7v5.1H3.9"/>
+          </svg>
+          <span>Git</span>
+        </div>
+
+        <div class="chip">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <circle cx="3.3" cy="2.8" r="2.1"/>
+            <circle cx="3.3" cy="13.2" r="2.1"/>
+            <path d="M3.3 4.9v6.2"/>
+            <circle cx="12.5" cy="2.8" r="2.1"/>
+            <path d="M12.5 4.9v6.2"/>
+            <circle cx="12.5" cy="13.2" r="2.1"/>
+          </svg>
+          <span>Pull requests</span>
+        </div>
+      </div>
+
+      <div class="copilot">
+        <span class="glow"></span>
+        <div class="info">
+          <div class="title-row">
+            <span class="title">The GitHub Copilot app</span>
+            <span class="new">New</span>
+          </div>
+          <div class="desc">An agent-driven desktop experience built natively on GitHub.</div>
+        </div>
+        <button class="dl">Download for Windows</button>
+      </div>
+
+      <section class="section">
+        <div class="section-head">
+          <h2>Pull requests</h2>
+          <a href="#">View all</a>
+          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M0 1h16M2.6 5h10.8M5.3 9h5.4"/>
+          </svg>
+        </div>
+        <div class="empty">No pull requests found, try a different filter.</div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2>Issues</h2>
+          <a href="#">View all</a>
+          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M0 1h16M2.6 5h10.8M5.3 9h5.4"/>
+          </svg>
+        </div>
+        <div class="empty">No issues found, try a different filter.</div>
+      </section>
+
+      <div class="tail"></div>
+    </main>
+  </div>
+</div>
+</body>
+</html>
