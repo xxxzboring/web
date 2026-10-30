@@ -115,6 +115,29 @@
   .t2{margin-top:4px;font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .card.playing .t1{color:var(--acc)}
   body:not(.list) .card .dur{display:none}
+  .card.noaudio .playbtn svg{display:none}
+  .card.noaudio .playbtn::after{content:"↗";font-size:16px;font-weight:600;line-height:1}
+  .toast{position:fixed;left:50%;bottom:104px;transform:translate(-50%,14px);z-index:60;
+    max-width:min(560px,92vw);padding:11px 18px;border-radius:12px;font-size:13px;line-height:1.6;
+    background:rgba(24,28,40,.96);border:1px solid rgba(255,255,255,.14);color:#e9edf5;
+    box-shadow:0 14px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;
+    transition:opacity .25s,transform .25s;text-align:center}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+  .modal{position:fixed;inset:0;z-index:80;display:none;place-items:center;padding:24px;
+    background:rgba(6,8,12,.84);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .modal.on{display:grid}
+  .modal-box{width:min(900px,100%);background:#0f1420;border:1px solid var(--line);
+    border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .modal-hd{display:flex;align-items:center;gap:14px;padding:11px 16px;font-size:13px;color:var(--dim)}
+  .modal-hd b{color:var(--txt);font-size:13.5px;font-weight:600;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .modal-hd a{color:#8b93a8;text-decoration:none;white-space:nowrap}
+  .modal-hd a:hover{color:var(--acc)}
+  .modal-hd button{margin-left:auto;width:30px;height:30px;border:none;border-radius:8px;
+    background:rgba(255,255,255,.07);color:var(--txt);cursor:pointer;font-size:13px}
+  .modal-hd button:hover{background:rgba(255,255,255,.16)}
+  .modal-video{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+  .modal-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   .hero-side{width:272px;flex:none;border-left:1px solid rgba(255,255,255,.1);padding-left:24px}
   .hero-side h3{font-size:11.5px;letter-spacing:1.6px;color:var(--dim);font-weight:600;margin-bottom:12px}
   .hrow{display:flex;gap:10px;align-items:center;padding:7px 8px;border-radius:10px;
@@ -288,10 +311,26 @@
       <span class="time" id="dur">0:00</span>
     </div>
     <div class="eq" id="eq"><span></span><span></span><span></span><span></span></div>
+    <a class="chip" id="bili" href="https://www.bilibili.com" target="_blank" rel="noopener"
+       style="text-decoration:none;display:none">B 站试听</a>
     <a class="chip" id="openqq" href="https://y.qq.com" target="_blank" rel="noopener" style="text-decoration:none">在 QQ 音乐收听</a>
   </div>
 </div>
 
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <b id="modal-title">B 站试听</b>
+      <a id="modal-link" href="https://www.bilibili.com" target="_blank" rel="noopener">在 B 站打开 ↗</a>
+      <button id="modal-close" title="关闭（Esc）">✕</button>
+    </div>
+    <div class="modal-video">
+      <iframe id="modal-frame" src="" allow="autoplay; fullscreen" allowfullscreen frameborder="0" scrolling="no"></iframe>
+    </div>
+  </div>
+</div>
+<audio id="audio" preload="metadata"></audio>
+<div class="toast" id="toast"></div>
 <script>
 /* ===== 歌单数据（来自 QQ 音乐「我喜欢」，封面取 QQ 音乐专辑图 CDN） ===== */
 const SONGS = [
@@ -379,8 +418,30 @@ const SONGS = [
 
 const $ = s => document.querySelector(s);
 const grid = $('#grid'), empty = $('#empty');
+const audio = $('#audio');
 let view = [...SONGS];
-let curIdx = -1, playing = false, timer = null, pos = 0;
+let curIdx = -1, playing = false, pos = 0, wantSrc = false;
+
+// 音频流走社区 Meting 接口（返回腾讯 CDN 的 mp3），下面 4 首平台侧没有可用音频流，改用 B 站视频试听
+const NO_AUDIO = new Set(['001E98UK48nL5A', '000ZwqMf31ZpNV', '0030KTZ8141fsb', '0002HRYc3nYyKT']);
+const BILI = {
+  '001E98UK48nL5A': 'BV1mNf3BREgj',   // 脑蚀 / Brain rot
+  '000ZwqMf31ZpNV': 'BV1bL411m7me',   // If We Ever Broke Up（官方歌词 MV）
+  '0030KTZ8141fsb': 'BV1Ze411D7Qa',   // NIGHT DANCER（官方 4K MV）
+  '0002HRYc3nYyKT': 'BV1PX4y1z7hc'    // free flow
+};
+const midOf = s => (s.link || '').split('/').pop();
+const biliOf = s => BILI[midOf(s)];
+const streamUrl = mid => 'https://api.injahow.cn/meting/?server=tencent&type=url&id=' + mid;
+
+let toastTimer = null;
+function toast(msg){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 5000);
+}
 
 const fmt = s => {
   s = Math.max(0, Math.round(s));
@@ -391,7 +452,7 @@ const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g,
 
 function render(){
   grid.innerHTML = view.map((s, i) => `
-    <div class="card" data-i="${i}" title="${esc(s.name)} — ${esc(s.singer)}">
+    <div class="card${NO_AUDIO.has(midOf(s)) ? ' noaudio' : ''}" data-i="${i}" title="${esc(s.name)} — ${esc(s.singer)}">
       <div class="cover">
         <div class="ph">♪</div>
         ${s.cover ? `<img src="${esc(s.cover)}" alt="" onerror="this.style.display='none'">` : ''}
@@ -423,15 +484,26 @@ function load(i, autoplay){
   if(s.cover){ img.src = s.cover; img.style.visibility = 'visible'; }
   else { img.removeAttribute('src'); img.style.visibility = 'hidden'; }
   $('#openqq').href = s.link || 'https://y.qq.com';
+  const bv = biliOf(s), biliBtn = $('#bili');
+  biliBtn.style.display = bv ? '' : 'none';
+  if(bv) biliBtn.href = 'https://www.bilibili.com/video/' + bv;
   $('#dur').textContent = fmt(s.interval || 0);
-  pos = 0; paint(); markPlaying();
+  pos = 0; paint(s.interval || 0); markPlaying();
+
+  audio.pause();
+  wantSrc = false;
+  audio.removeAttribute('src');
+  try { audio.load(); } catch(e){}
+  const mid = midOf(s);
+  if(mid && !NO_AUDIO.has(mid)){ audio.src = streamUrl(mid); wantSrc = true; }
+
   if(autoplay) play(); else pause();
 }
 
-function paint(){
+function paint(total){
   const s = view[curIdx] || {};
-  const total = s.interval || 0;
-  const pct = total ? Math.min(100, pos / total * 100) : 0;
+  const t = total || s.interval || 0;
+  const pct = t ? Math.min(100, pos / t * 100) : 0;
   $('#fill').style.width = pct + '%';
   $('#knob').style.left = pct + '%';
   $('#cur').textContent = fmt(pos);
@@ -440,33 +512,94 @@ function paint(){
 function play(){
   if(curIdx < 0 && view.length) load(0, false);
   if(curIdx < 0) return;
+  const s = view[curIdx] || {};
+  if(!audio.getAttribute('src')){
+    pause();
+    if(openBili(s)){
+      toast('《' + s.name + '》QQ 音乐没有可播放音频，已用 B 站视频试听');
+    } else {
+      toast('《' + s.name + '》没有可播放的音频，点右侧「在 QQ 音乐收听」');
+    }
+    return;
+  }
+  audio.play().catch(() => {
+    pause();
+    toast('音频加载失败，可能是网络或版权限制，可点「B 站试听」或「在 QQ 音乐收听」');
+  });
+}
+
+function pause(){ audio.pause(); }
+
+audio.addEventListener('play', () => {
   playing = true;
   $('#ic-play').style.display = 'none';
   $('#ic-pause').style.display = '';
   $('#eq').classList.add('on');
-  clearInterval(timer);
-  timer = setInterval(() => {
-    const total = (view[curIdx] || {}).interval || 0;
-    if(!total) return;
-    pos += .25;
-    if(pos >= total){ pos = 0; load((curIdx + 1) % view.length, true); return; }
-    paint();
-  }, 250);
-}
+});
 
-function pause(){
+audio.addEventListener('pause', () => {
   playing = false;
-  clearInterval(timer);
   $('#ic-play').style.display = '';
   $('#ic-pause').style.display = 'none';
   $('#eq').classList.remove('on');
-}
+});
+
+audio.addEventListener('loadedmetadata', () => {
+  if(isFinite(audio.duration) && audio.duration > 0) $('#dur').textContent = fmt(audio.duration);
+});
+
+audio.addEventListener('timeupdate', () => {
+  pos = audio.currentTime || 0;
+  paint(isFinite(audio.duration) ? audio.duration : 0);
+});
+
+audio.addEventListener('ended', () => {
+  if(view.length) load((curIdx + 1) % view.length, true);
+});
+
+audio.addEventListener('error', () => {
+  if(!wantSrc) return;
+  wantSrc = false;
+  const s = view[curIdx] || {};
+  audio.removeAttribute('src');
+  pause();
+  toast('《' + s.name + '》的音频取不到（VIP / 版权限制），点右侧「在 QQ 音乐收听」');
+});
 
 grid.addEventListener('click', e => {
   const card = e.target.closest('.card');
   if(!card) return;
   const i = +card.dataset.i;
+  const s = view[i];
+  if(!audio.getAttribute('src') && i !== curIdx && biliOf(s)){
+    load(i, false);
+    if(openBili(s)) toast('《' + s.name + '》QQ 音乐没有可播放音频，已用 B 站视频试听');
+    return;
+  }
   if(i === curIdx && playing) pause(); else load(i, true);
+});
+
+// ---------- B 站试听弹层 ----------
+function openBili(s){
+  const bv = biliOf(s);
+  if(!bv) return false;
+  pause();
+  $('#modal-title').textContent = s.name + ' · ' + s.singer;
+  $('#modal-link').href = 'https://www.bilibili.com/video/' + bv;
+  $('#modal-frame').src = 'https://player.bilibili.com/player.html?bvid=' + bv +
+    '&page=1&high_quality=1&danmaku=0&autoplay=0';
+  $('#modal').classList.add('on');
+  return true;
+}
+function closeBili(){
+  $('#modal').classList.remove('on');
+  $('#modal-frame').src = '';
+}
+$('#modal-close').onclick = closeBili;
+$('#modal').addEventListener('click', e => { if(e.target.id === 'modal') closeBili(); });
+$('#bili').addEventListener('click', e => {
+  const s = view[curIdx];
+  if(s && biliOf(s)){ e.preventDefault(); openBili(s); }
 });
 
 $('#play').onclick = () => playing ? pause() : play();
@@ -475,14 +608,20 @@ $('#prev').onclick = () => { if(view.length) load((curIdx - 1 + view.length) % v
 
 $('#track').addEventListener('click', e => {
   if(curIdx < 0) return;
-  const total = (view[curIdx] || {}).interval || 0;
-  if(!total) return;
+  const d = (isFinite(audio.duration) && audio.duration > 0)
+    ? audio.duration : ((view[curIdx] || {}).interval || 0);
+  if(!d) return;
   const r = e.currentTarget.getBoundingClientRect();
-  pos = Math.min(total, Math.max(0, (e.clientX - r.left) / r.width * total));
-  paint();
+  const t = Math.min(d, Math.max(0, (e.clientX - r.left) / r.width * d));
+  if(audio.getAttribute('src')) audio.currentTime = t;
+  pos = t; paint(d);
 });
 
 document.addEventListener('keydown', e => {
+  if($('#modal').classList.contains('on')){
+    if(e.code === 'Escape') closeBili();
+    return;
+  }
   if(e.target.tagName === 'INPUT') return;
   if(e.code === 'Space'){ e.preventDefault(); playing ? pause() : play(); }
   if(e.code === 'ArrowRight') $('#next').click();
