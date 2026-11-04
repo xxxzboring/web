@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>尤克里里社 2026 年春季招新</title>
+    <style>
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.9;
+        color: #2f2a26;
+        background: #fdf8ef;
+      }
+
+      a { color: #b4652a; }
+
+      /* ---------- 左上角背景音乐 ---------- */
+      .bgm {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        z-index: 99;
+        padding: 8px 12px 6px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid #e6d3b8;
+        border-radius: 14px;
+        box-shadow: 0 6px 18px rgba(120, 80, 40, 0.16);
+        font-size: 13px;
+        line-height: 1.4;
+        color: #8a5a2b;
+      }
+
+      .bgm p { margin: 0 0 4px; }
+
+      .bgm audio { width: 190px; height: 32px; display: block; }
+
+      /* ---------- 首屏 ---------- */
+      .hero {
+        padding: 110px 24px 70px;
+        text-align: center;
+        color: #fff8ec;
+        background: linear-gradient(160deg, #2b3a55 0%, #4a5d7e 45%, #b4652a 100%);
+      }
+
+      .eyebrow {
+        margin: 0;
+        letter-spacing: 4px;
+        font-size: 13px;
+        opacity: 0.85;
+      }
+
+      .hero h1 {
+        margin: 14px 0 8px;
+        font-size: 46px;
+        letter-spacing: 6px;
+        font-weight: 700;
+      }
+
+      .slogan {
+        margin: 0 0 18px;
+        font-size: 18px;
+        letter-spacing: 2px;
+      }
+
+      .meta {
+        margin: 0;
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      /* ---------- 导航 ---------- */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        padding: 12px 8px;
+        text-align: center;
+        background: #fff6e8;
+        border-bottom: 1px solid #eeddc4;
+      }
+
+      .nav a {
+        display: inline-block;
+        margin: 4px 10px;
+        padding: 4px 10px;
+        color: #7a4a1e;
+        font-weight: 600;
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+      }
+
+      .nav a:hover {
+        color: #b4652a;
+        border-bottom-color: #b4652a;
+      }
+
+      /* ---------- 内容区 ---------- */
+      .wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      section {
+        padding: 56px 0 46px;
+        border-bottom: 1px dashed #e2d0b4;
+        scroll-margin-top: 58px;
+      }
+
+      @media (max-width: 600px) {
+        section { scroll-margin-top: 72px; }
+      }
+
+      section h2 {
+        margin: 0 0 6px;
+        font-size: 27px;
+        color: #6d3f17;
+        letter-spacing: 2px;
+      }
+
+      section h2 span {
+        display: block;
+        margin-top: 4px;
+        font-size: 12px;
+        letter-spacing: 3px;
+        color: #b49a7c;
+        font-weight: normal;
+      }
+
+      section h3 {
+        margin: 28px 0 8px;
+        font-size: 19px;
+        color: #8a5122;
+      }
+
+      p {
+        margin: 12px 0;
+        text-indent: 2em;
+      }
+
+      .lead {
+        font-size: 17px;
+        color: #513f2e;
+      }
+
+      /* ---------- 表格 ---------- */
+      table {
+        width: 100%;
+        margin: 22px 0 8px;
+        border-collapse: collapse;
+        font-size: 15px;
+        background: #fffdf9;
+      }
+
+      table caption {
+        padding-bottom: 10px;
+        font-size: 15px;
+        color: #8a6a4a;
+      }
+
+      th, td {
+        border: 1px solid #dcc6a6;
+        padding: 10px 12px;
+        text-align: left;
+      }
+
+      .schedule th,
+      .schedule td { text-align: center; }
+
+      .schedule tr:first-child th {
+        background: #6d3f17;
+        color: #fff8ec;
+        font-size: 17px;
+        letter-spacing: 1px;
+      }
+
+      .schedule tr:nth-child(2) th {
+        background: #f3e3ca;
+        color: #6d3f17;
+      }
+
+      .schedule tbody tr:nth-child(even) {
+        background: #fdf3e4;
+      }
+
+      .tip {
+        margin: 8px 0 0;
+        font-size: 13px;
+        color: #96795b;
+        text-indent: 0;
+      }
+
+      /* ---------- 图片 ---------- */
+      .photo {
+        margin: 24px 0;
+        text-align: center;
+      }
+
+      .photo a { display: inline-block; }
+
+      .photo img {
+        width: 100%;
+        max-width: 640px;
+        height: auto;
+        border: 6px solid #fff;
+        box-shadow: 0 10px 26px rgba(120, 80, 40, 0.22);
+        border-radius: 4px;
+      }
+
+      .photo figcaption {
+        margin-top: 10px;
+        font-size: 13px;
+        color: #8a7050;
+      }
+
+      .photo figcaption a { color: #b4652a; }
+
+      /* ---------- 视频 ---------- */
+      .video {
+        margin: 26px 0 10px;
+        padding: 18px;
+        text-align: center;
+        background: #fff8ec;
+        border: 1px solid #e6d3b8;
+        border-radius: 10px;
+      }
+
+      .video video,
+      .video embed {
+        max-width: 100%;
+        border-radius: 6px;
+        background: #1d2430;
+      }
+
+      .video p {
+        margin: 10px 0 0;
+        font-size: 13px;
+        color: #8a7050;
+        text-indent: 0;
+      }
+
+      /* ---------- 社员故事 ---------- */
+      .story {
+        padding: 22px 24px;
+        margin: 20px 0;
+        background: #fffdf9;
+        border-left: 5px solid #d9a865;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .story h3 { margin-top: 0; }
+
+      /* ---------- 返回顶部 ---------- */
+      .backtop {
+        margin-top: 28px;
+        text-align: right;
+      }
+
+      .backtop a {
+        display: inline-block;
+        padding: 7px 18px;
+        font-size: 14px;
+        color: #fff8ec;
+        background: #b4652a;
+        border-radius: 999px;
+        text-decoration: none;
+      }
+
+      .backtop a:hover { background: #8a4a1c; }
+
+      /* ---------- 报名表 ---------- */
+      .form-table th {
+        width: 168px;
+        background: #f8ecda;
+        color: #6d3f17;
+        font-weight: 600;
+        vertical-align: top;
+        padding-top: 14px;
+      }
+
+      .form-table td { background: #fffdf9; }
+
+      .form-table input[type="text"] {
+        width: 180px;
+        padding: 5px 8px;
+        border: 1px solid #cdb392;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: inherit;
+      }
+
+      .form-table .small { width: 54px; }
+
+      .form-table label { margin-right: 14px; white-space: nowrap; }
+
+      .form-table select {
+        padding: 5px 8px;
+        border: 1px solid #cdb392;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: inherit;
+      }
+
+      .form-table textarea {
+        width: 100%;
+        max-width: 520px;
+        padding: 8px;
+        border: 1px solid #cdb392;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: inherit;
+        line-height: 1.7;
+        resize: vertical;
+      }
+
+      .form-note {
+        margin: 0 0 10px;
+        font-size: 13px;
+        color: #8a7050;
+        text-indent: 0;
+      }
+
+      .form-actions {
+        margin: 0;
+        text-align: center;
+      }
+
+      .form-actions input {
+        margin: 0 10px;
+        padding: 9px 34px;
+        font-size: 15px;
+        font-family: inherit;
+        color: #fff8ec;
+        background: #b4652a;
+        border: 1px solid #b4652a;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+
+      .form-actions input[type="reset"] {
+        color: #8a5122;
+        background: #fff8ec;
+        border-color: #d9a865;
+      }
+
+      footer {
+        padding: 34px 20px 60px;
+        text-align: center;
+        font-size: 13px;
+        color: #9b8265;
+        line-height: 1.9;
+      }
+    </style>
+  </head>
+
+  <body>
+    <a name="top"></a>
+
+    <!-- 功能1：网页左上角点击即可播放背景音乐 -->
+    <div class="bgm">
+      <p>♪ 尤克里里社主题曲</p>
+      <audio src="music.mp3" controls="controls" loop="loop">
+        你的浏览器不支持音频播放，请换用 Chrome 或 Edge。
+      </audio>
+    </div>
+
+    <!-- 首屏 -->
+    <header class="hero">
+      <p class="eyebrow">UKULELE CLUB · SINCE 2016</p>
+      <h1>尤克里里社</h1>
+      <p class="slogan">四根弦，也能弹出整个夏天</p>
+      <p class="meta">2026 年春季招新 ｜ 3 月 2 日 — 3 月 15 日 ｜ 长清湖校区</p>
+    </header>
+
+    <!-- 功能2：五个指向本页的锚点链接 -->
+    <nav class="nav">
+      <a href="#intro">社团简介</a> |
+      <a href="#schedule">活动安排</a> |
+      <a href="#gallery">风采展示</a> |
+      <a href="#story">社员故事</a> |
+      <a href="#join">在线报名</a>
+    </nav>
+
+    <div class="wrap">
+
+      <!-- ================= 一、社团简介 ================= -->
+      <section id="intro">
+        <h2>社团简介<span>ABOUT US</span></h2>
+
+        <p class="lead">尤克里里社成立于 2016 年秋天，是长清湖校区最早把“零基础也能上台”写进章程的音乐类社团。十年里，我们从一间借来的琴房、七把琴和一本手抄的和弦谱开始，慢慢长成了一个每年有三百多名社员、二十余场演出的大家庭。</p>
+
+        <p>社团的名字来自那件只有四根尼龙弦的小乐器——尤克里里。它诞生于十九世纪的夏威夷，个头不大，声音却清亮得像夏天傍晚的风。很多人第一次见到它，都会觉得这是一件“玩具”；可当《天空之城》的前奏从四根弦里流淌出来，当一群人在草地上合唱《稻香》，你就会明白，简单的乐器从来不妨碍它承载复杂的情绪。我们喜欢它，正是因为它不设门槛：不需要从小学琴，不需要昂贵的设备，不需要识谱，甚至不需要“有天赋”。你只要愿意把左手按在指板上，右手轻轻扫下去，它就会回应你。</p>
+
+        <p>社团目前设有教学部、演出部、宣传部、组织部四个部门。教学部负责每周的课程与一对一答疑，把“能弹一首完整的歌”拆成十六个可以完成的小目标；演出部负责校内外的大小舞台，从迎新晚会到社区义演，从湖畔草地音乐会到毕业歌会；宣传部负责摄影、剪辑、海报和公众号，把每一次排练的碎片剪成能被记住的样子；组织部则是那个永远在背后确认场地、清点物资、给大家订夜宵的部门。四个部门没有高低之分，新社员可以在学期初自由申请，也可以先当一学期“纯玩社员”，只来弹琴、不接任务。</p>
+
+        <p>我们的日常是這樣的：每周四晚上七点，大学生活动中心 205 的灯会准时亮起来。有人抱着琴坐在窗台上调音，有人围成一圈交换这周新学的曲子，有人第一次按出 F 和弦，兴奋得让整个房间都听见。九点以后，琴声会慢慢变成聊天声，聊选修课、聊实习、聊最近循环的那首歌。散场时总有人留下来，把椅子摆回原位，顺手弹一段没人听过的旋律。这些没有被安排的十几分钟，往往才是社团最像“家”的部分。</p>
+
+        <p>十年间，尤克里里社拿过校“十佳社团”，也在省级大学生艺术展演里得过奖，但我们很少把这些挂在嘴边。比起奖状，我们更在意另一些数字：每年有超过一半的新社员在入社前完全没有摸过琴；每年有三十多位同学在社团完成了人生第一次登台；每年毕业季，都会有一批人把琴留给下一届，琴箱里塞一张写着“加油”的便签。这些数字不会被记录在任何一份总结里，却是我们愿意一年年做下去的理由。</p>
+
+        <p>如果你也曾在某个傍晚，被一段简单的扫弦打动过；如果你也想在课业之外，给自己留一件“没什么用但很快乐”的事；如果你只是想找个地方，安静地坐两个小时——欢迎你来。我们不需要你带琴，社团有二十把公用琴可以借用；也不需要你准备什么，穿最舒服的衣服来就好。四根弦能做的事情不多，但足够让一个普通的夜晚变得不那么普通。</p>
+
+        <div class="backtop"><a href="#top">返回顶部 ↑</a></div>
+      </section>
+
+      <!-- ================= 二、活动安排 ================= -->
+      <section id="schedule">
+        <h2>活动安排<span>SCHEDULE</span></h2>
+
+        <p class="lead">2026 年春季学期，社团把活动分成“入门—进阶—登台”三个阶段，尽量让每个新社员都能在学期结束前，完整地弹会一首歌、站上一次台。</p>
+
+        <p>学期第一周是招新与见面。新成员见面会安排在 3 月 8 日晚上，我们会用半个小时讲清楚社团的部门设置、琴的借用规则和本学期的课程安排，剩下的时间全部留给自我介绍和自由弹唱。紧接着的尤克里里基础教学公开课就安排在同一个教室，方便新同学不用再找地方——两场活动都在音乐学院 302 排练厅举行，见面会结束后直接开始上课，中间不用挪动。公开课会讲最基础的三件事：怎么抱琴、怎么调音、怎么用四个和弦弹完一首歌。我们会现场演示《小星星》和《旅行的意义》，让所有人相信“今天就能弹出声音”不是一句空话。</p>
+
+        <p>从第三周开始，每周四晚上的和弦工作坊进入常规节奏。工作坊按水平分成两个班：入门班从 C、Am、F、G 四个和弦开始，重点解决“换和弦时右手停不下来”这个新手最常见的毛病；进阶班则练习分解和弦、切音、闷音和简单的指弹编配，会布置一点课后作业，但绝不强制。工作坊不点名、不计考勤，来不了就在群里说一声，下一周补上进度即可。</p>
+
+        <p>四月中旬的湖畔草地音乐会是每学期最热闹的一场。我们把舞台搬到中心广场的草坪上，铺几张野餐垫，架上两个音箱，从下午五点唱到天色完全暗下来。曲目由社员自己报名，独奏、双人合奏、大合唱都可以，去年有人用尤克里里改编了《卡农》，也有人抱着琴唱了一首自己写的歌。那场演出没有节目单，也没有彩排，谁想上就举手，台下的观众会自发地打拍子。</p>
+
+        <p>五月进入期中汇报展演的筹备期。这是唯一一场“全员参加”的活动：每位社员都要准备一首完整的曲目，可以独奏，也可以组队，曲目自选，形式不限。我们会安排两次集中彩排，帮大家处理音量、走位和串场的问题。展演当天会邀请往届社员回来当观众，结束后一起合影、吃蛋糕——这也是社团每年拍“全家福”的日子。</p>
+
+        <p>六月的主线是毕业歌会。我们会提前一个月征集曲目，把毕业生点得最多的十几首歌重新编成尤克里里版本，做成一份合唱谱发到群里。歌会那天，台上台下一起唱，很多人会在某一首歌里突然红了眼眶。歌会结束后，社团会把公用琴清点入库，把这一学期的照片、视频和谱子整理成一份资料包，交给下一届的负责人。</p>
+
+        <p>除了这些固定安排，社团还会不定期组织一些“小而散”的活动：去社区教小朋友弹琴、在图书馆门口做一次快闪、在期末周之前办一场“解压弹琴夜”。这些活动不会提前很久通知，通常就是在群里发一句“今晚有人来吗”，然后凑齐五六个人就出发。它们不在计划表里，但往往是大家记得最久的部分。</p>
+
+        <table class="schedule" border="1">
+          <tr>
+            <th colspan="4">尤克里里社 2026 年春季学期活动安排表</th>
+          </tr>
+          <tr>
+            <th>活动名称</th>
+            <th>时间</th>
+            <th>地点</th>
+            <th>负责部门</th>
+          </tr>
+          <tr>
+            <td>新成员见面会</td>
+            <td>3 月 8 日（周日）19:00—20:00</td>
+            <td rowspan="2">音乐学院 302 排练厅</td>
+            <td>组织部</td>
+          </tr>
+          <tr>
+            <td>尤克里里基础教学公开课</td>
+            <td>3 月 8 日（周日）20:00—21:30</td>
+            <td>教学部</td>
+          </tr>
+          <tr>
+            <td>每周四和弦工作坊</td>
+            <td>3 月 12 日起 每周四 19:00—21:00</td>
+            <td>大学生活动中心 205</td>
+            <td>教学部</td>
+          </tr>
+          <tr>
+            <td>湖畔草地音乐会</td>
+            <td>4 月 18 日（周六）17:00—19:30</td>
+            <td>长清湖校区中心广场草坪</td>
+            <td>演出部</td>
+          </tr>
+          <tr>
+            <td colspan="3">期中汇报展演（全员参加，曲目自选，可独奏或组队）</td>
+            <td>演出部</td>
+          </tr>
+          <tr>
+            <td>毕业歌会</td>
+            <td>6 月 13 日（周六）19:30—21:00</td>
+            <td>大学生活动中心 报告厅</td>
+            <td>宣传部</td>
+          </tr>
+        </table>
+        <p class="tip">注：所有活动均免费，公用琴可提前一天在社团群内登记借用；如遇天气或场地调整，会提前在群公告中通知。</p>
+
+        <div class="backtop"><a href="#top">返回顶部 ↑</a></div>
+      </section>
+
+      <!-- ================= 三、风采展示 ================= -->
+      <section id="gallery">
+        <h2>风采展示<span>GALLERY</span></h2>
+
+        <p class="lead">舞台上的灯光、排练厅里的白板、草地上的野餐垫，都是我们练习“把一首歌弹完整”的地方。下面这张照片拍的是上学期一次普通的周四排练：有人刚学会扫弦，有人已经能闭着眼睛弹完整首曲子，但大家坐在同一圈里，唱的是同一段副歌。</p>
+
+        <!-- 功能4：插入图片，并点击图片跳转到 club_intro.html -->
+        <figure class="photo">
+          <a href="club_intro.html" title="点击查看社团活动介绍">
+            <img src="photo.jpg" alt="尤克里里社日常演奏照片" width="640" height="420">
+          </a>
+          <figcaption>尤克里里社日常排练 ｜ 点击图片可以查看<a href="club_intro.html">社团活动介绍</a></figcaption>
+        </figure>
+
+        <p>很多人对社团的第一印象，来自操场边、食堂门口或者迎新晚会上的一次快闪。我们喜欢把琴带到人多的地方去：不搭台、不报幕，几个人往台阶上一坐，扫出前奏，路过的人就会慢慢停下来。有一次在图书馆门口，我们从《童年》弹到《平凡之路》，围过来的人从三五个变成三四十个，最后变成了一个大合唱。那一刻没有人关心谁弹错了和弦，大家只是刚好在同一段旋律里。</p>
+
+        <p>排练的日常远没有舞台上那么好看。新手最常见的问题是左手按不实、右手节奏乱，一首《小星星》能弹得断断续续；进阶的同学则卡在切音和指弹的衔接上，一个乐句要重复几十遍。我们会在白板上画节奏型，用手机录下慢速示范发到群里，也会把一个人的问题变成全班的练习——因为几乎每一个“我是不是不适合学琴”的瞬间，都能在别人身上找到同样的影子。社团里流传一句话：弹错不是问题，停下来才是。</p>
+
+        <p>这些画面大多由宣传部的同学拍下来。他们背着一台不算新的相机，蹲在排练厅的角落，抓拍某个人低头按弦的侧脸，或者把手机架在谱架上，录下整段排练。素材攒到学期末，会被剪成一支两三分钟的短片：前奏是调音的杂响，中间是不断重来的副歌，结尾是散场后空掉的椅子和没关的灯。短片里没有旁白，也没有煽情的字幕，只有琴声和笑声，因为我们想让新同学看到的是社团本来的样子，而不是一支宣传片应该有的样子。下面这支五秒钟的小视频，就是其中一个片段。</p>
+
+        <p>每学期的汇报展演，是我们把这些碎片拼起来的时候。有人第一次站上台，手抖得按不住弦，台下的社员就一起帮他打拍子；有人组了一个四个人的小乐队，尤克里里、卡宏鼓、口琴和人声凑在一起，排练了三周才勉强对齐；也有人只是安静地弹了一首《送别》，弹完鞠躬，台下安静了两秒才响起掌声。这些时刻不会出现在任何宣传推文里，但它们是社团真正的内容。</p>
+
+        <!-- 功能5：导入 mp4 视频（参考 ex3_25；新版 Chrome 已不支持 embed 播放 mp4，故以 video 播放、embed 作兼容写法） -->
+        <div class="video">
+          <video width="640" height="360" controls="controls" preload="metadata" poster="photo.jpg">
+            <source src="club.mp4" type="video/mp4">
+            <embed src="club.mp4" width="640" height="360" loop="true" autostart="false">
+          </video>
+          <p>社团宣传短片（mp4 格式，约 5 秒）｜ 点击画面中间的播放按钮即可观看，请确认 club.mp4 与网页在同一文件夹</p>
+        </div>
+
+        <p>如果你在犹豫要不要来，可以先来看看我们排练。每周四晚上七点以后，大学生活动中心 205 的门都是开着的，你可以坐在旁边听，也可以借一把琴跟着按。我们不会要求你当场决定什么，只希望你能亲手拨响一次那四根弦——很多时候，决定就是在那一秒钟做出的。</p>
+
+        <div class="backtop"><a href="#top">返回顶部 ↑</a></div>
+      </section>
+
+      <!-- ================= 四、社员故事 ================= -->
+      <section id="story">
+        <h2>社员故事<span>STORIES</span></h2>
+
+        <p class="lead">下面这几段故事，来自社团里三个不同年级的社员，由他们口述、宣传部整理。故事都很小，小到只是某个晚上的某一段旋律，但它们拼在一起，大概就是这个社团的样子。</p>
+
+        <div class="story">
+          <h3>“我第一次按响 C 和弦，是在一个下雨的周四”</h3>
+          <p>林同学是 2024 级的社员，入社的时候完全没有音乐基础。她说自己大一上学期过得有点闷，课表排得满，回宿舍就刷手机，周末也不知道该做什么。室友拉她去听了一次公开课，她坐在最后一排，看着台上的人用四个和弦弹完《旅行的意义》，心里想的是“这大概跟我没关系”。</p>
+          <p>真正让她留下来的是一个下雨的周四。那天来的人不多，教室里有股潮湿的味道，教学部的学长把一把琴递给她，说“你试试，就按这一个格子”。她左手食指按在第一弦第一品，右手拇指往下拨了一下，一个干净的 C 音在雨声里响起来。她说那一刻有点恍惚，因为那声音是她自己弄出来的，不是从耳机里、也不是从视频里。“我那天晚上回宿舍，一路上都在想那个声音。”后来她每周都来，从 C、Am、F、G 开始，手指磨出了茧，三个月后能在草地上完整地弹唱一首歌。现在她是教学部的干事，负责带新一届的入门班。</p>
+        </div>
+
+        <div class="story">
+          <h3>“我们把一首歌改了十一遍”</h3>
+          <p>周同学是演出部的负责人，2023 级。他记得最清楚的不是哪一场演出，而是一次改编。去年湖畔草地音乐会前，他想把《晴天》改成尤克里里、口琴和卡宏鼓的三重奏。第一次排练，三个人节奏完全对不上；第二次，口琴的调性和琴不匹配；第三次，卡宏鼓的声音把琴盖住了。他们在排练厅待到十一点，被楼管阿姨赶出来，又转移到宿舍楼下的架空层继续练。</p>
+          <p>“前后改了十一遍。”他说，“到最后其实已经不是为了演出了，就是想把它弄对。”演出那天风很大，谱子被吹跑两次，卡宏鼓的麦克风还断了一次，但他们完整地弹完了。演完以后有一个大一新生跑过来问：“学长，我可以学口琴吗？”他说那一瞬间比掌声更让他高兴。现在他把那份改了十一遍的谱子存在社团的共享文件夹里，文件名后面加了一行小字：欢迎继续改。</p>
+        </div>
+
+        <div class="story">
+          <h3>“毕业前，我把琴留在了琴房”</h3>
+          <p>陈同学是 2022 级的社员，今年六月毕业。她的琴是大一入社时用兼职的钱买的，琴身上贴了三张音乐节的贴纸，琴头有一道被背包拉链划出的痕。毕业前的最后一次排练，她弹了一首自己写的歌，歌词写的是长清湖的风和图书馆闭馆的音乐，弹到一半忘了词，大家就笑着帮她接下去。</p>
+          <p>走之前她把琴擦干净，换了一套新弦，放进了社团的公用琴柜，琴箱里塞了一张便签，上面写着：“这把琴陪我弹过四年的夏天，现在轮到你了。别怕弹错，先把它弹响。”她说自己以后可能不会再弹琴了，工作、租房、加班，生活会占掉很多东西。但她希望有一天，某个新社员打开琴柜，看到那张便签，会觉得这件事值得继续做下去。</p>
+        </div>
+
+        <p>这些故事没有跌宕的情节，也没有励志的转折。它们只是说明了一件事：一个社团真正的样子，不在于它有多少人、拿过多少奖，而在于有没有人愿意在一个普通的晚上，为了一个和弦多练十分钟，愿意把琴借给一个陌生人，愿意在毕业的时候留下点什么。如果你也想成为这些故事的一部分，我们在下面等你。</p>
+
+        <div class="backtop"><a href="#top">返回顶部 ↑</a></div>
+      </section>
+
+      <!-- ================= 五、在线报名 ================= -->
+      <section id="join">
+        <h2>在线报名<span>JOIN US</span></h2>
+
+        <p class="lead">2026 年春季招新从 3 月 2 日开始，到 3 月 15 日结束。无论你有没有基础、有没有琴，都可以填下面的表报名；我们会在收到报名后的两天内，通过短信或邮件和你联系。</p>
+
+        <p>报名不需要面试，也不需要准备曲目。我们唯一想确认的是：你愿意在接下来的一学期里，给自己留出每周两个小时。这两个小时里，你可以学琴，也可以只是坐在旁边听；可以跟着入门班一点点来，也可以直接找进阶班的同学组队。社团有二十把公用琴，零基础的同学不必急着买琴，提前一天在社团群里登记就能借用，押金免收，只需在学期末归还并换一套新弦。</p>
+
+        <p>关于大家最常问的几个问题，先在这里统一回答。第一，完全没有基础可以吗？可以，而且每年有一半以上的新社员都是零基础，入门班会从“怎么抱琴”开始讲。第二，需要自己买琴吗？不必须。公用琴足够用一学期，如果你确定要长期学，我们会在学期中组织一次团购，价格比市面低一些，但不强制参加。第三，会和专业课冲突吗？社团活动固定在周四晚上，不占用上课时间，期末周会停课两周。第四，非本校学生可以参加吗？可以参加公开课和草地音乐会，但正式社员需要是本校在读学生。</p>
+
+        <p>填写下面的报名表时，请尽量把联系方式写准确，尤其是手机号和邮箱——我们的大部分通知会通过这两个渠道发出。兴趣方向可以多选，它只用于帮你匹配更适合的小组，不会限制你参加其他活动。“是否服从活动安排”这一项，指的是在演出、彩排和场地临时调整时，是否接受社团的统一协调；选“不服从”也不影响录取，只是我们会尽量少给你安排临时任务。</p>
+
+        <p>提交之后，你会先收到一条确认信息，里面有招新群的二维码和本学期课程表的链接。第一次活动就是 3 月 8 日的新成员见面会，签到时报上姓名和年级即可，不需要带任何材料。如果你在这之前想先来看看，随时可以在周四晚上过来，我们会留两把琴在门口，给第一次来的同学试手。招新结束后，报名表不会作废：春季学期中途想加入的同学，仍然可以在群里找负责人补录，社团的门一年四季都开着。</p>
+
+        <p>如果你在填表过程中遇到问题，可以在招新群里直接问，也可以周四晚上来大学生活动中心 205 找我们。我们更希望你把这张表当成一次简单的自我介绍，而不是一场考试——写清楚你是谁、喜欢什么、想在社团里得到什么，就足够了。填完之后记得点一次“提交”，看到提示页才算报名成功；如果手滑填错了，点“重置”重新来一遍也不会有人笑你，我们在社团里见过太多第一次按错和弦的人了。四根弦不会挑剔谁来弹它，我们也一样，欢迎你来。</p>
+
+        <!-- 功能7：十项内容全部放在 table 中的报名表单 -->
+        <form action="#" method="post">
+          <table class="form-table" border="1">
+            <caption><b>尤克里里社 2026 年春季招新报名表</b></caption>
+
+            <tr>
+              <th>① 姓名</th>
+              <td><input type="text" name="name" size="16" placeholder="请输入真实姓名"></td>
+            </tr>
+
+            <tr>
+              <th>② 性别</th>
+              <td>
+                <label><input type="radio" name="gender" value="男" checked>男</label>
+                <label><input type="radio" name="gender" value="女">女</label>
+              </td>
+            </tr>
+
+            <tr>
+              <th>③ 出生日期</th>
+              <td>
+                <input type="text" class="small" name="year" size="4"> 年
+                <input type="text" class="small" name="month" size="2"> 月
+                <input type="text" class="small" name="day" size="2"> 日
+              </td>
+            </tr>
+
+            <tr>
+              <th>④ 手机</th>
+              <td><input type="text" name="phone" size="20" placeholder="11 位手机号"></td>
+            </tr>
+
+            <tr>
+              <th>④ 邮箱</th>
+              <td><input type="text" name="email" size="30" placeholder="example@qq.com"></td>
+            </tr>
+
+            <tr>
+              <th>⑤ 是否有尤克里里基础</th>
+              <td>
+                <label><input type="radio" name="level" value="零基础" checked>零基础</label>
+                <label><input type="radio" name="level" value="会几个和弦">会几个和弦</label>
+                <label><input type="radio" name="level" value="能完整弹唱">能完整弹唱</label>
+              </td>
+            </tr>
+
+            <tr>
+              <th>⑥ 兴趣方向（可多选）</th>
+              <td>
+                <label><input type="checkbox" name="interest" value="弹唱">弹唱</label>
+                <label><input type="checkbox" name="interest" value="指弹">指弹</label>
+                <label><input type="checkbox" name="interest" value="编曲创作">编曲创作</label>
+                <label><input type="checkbox" name="interest" value="摄影剪辑">摄影剪辑</label>
+                <label><input type="checkbox" name="interest" value="活动组织">活动组织</label>
+              </td>
+            </tr>
+
+            <tr>
+              <th>⑦ 年级</th>
+              <td>
+                <select name="grade" size="1">
+                  <option value="大一" selected>大一</option>
+                  <option value="大二">大二</option>
+                  <option value="大三">大三</option>
+                  <option value="大四">大四</option>
+                  <option value="研究生">研究生</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr>
+              <th>⑧ 自我介绍</th>
+              <td>
+                <textarea name="intro" rows="6" cols="60" placeholder="请简单介绍自己、以及加入吉他社的理由……"></textarea>
+              </td>
+            </tr>
+
+            <tr>
+              <th>⑨ 是否服从活动安排</th>
+              <td>
+                <label><input type="radio" name="arrange" value="服从" checked>服从</label>
+                <label><input type="radio" name="arrange" value="基本服从">基本服从</label>
+                <label><input type="radio" name="arrange" value="不服从">不服从</label>
+              </td>
+            </tr>
+
+            <tr>
+              <th>⑩ 提交操作</th>
+              <td>
+                <p class="form-note">填写完成后请点击“提交报名”，或点击“重置”重新填写。</p>
+                <div class="form-actions">
+                  <input type="submit" value="提交报名">
+                  <input type="reset" value="重置">
+                </div>
+              </td>
+            </tr>
+          </table>
+        </form>
+
+        <div class="backtop"><a href="#top">返回顶部 ↑</a></div>
+      </section>
+
+    </div>
+
+    <footer>
+      尤克里里社 · Ukulele Club<br>
+      每周四 19:00—21:00 ｜ 大学生活动中心 205<br>
+      本页面为《Web 前端设计》上机作业，学号 202511160406 ｜ 赵飞
+    </footer>
+  </body>
+</html>
