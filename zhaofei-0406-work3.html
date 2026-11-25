@@ -3,13 +3,20 @@
 <head>
     <title>原创小说交流会 · Writer's Salon</title>
     <style>
-        /* 页面整体：淡紫渐变背景 + 居中布局 */
+        /* ---------- 页面整体：淡紫到米色的纸感背景 ---------- */
         body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
-            background: linear-gradient(135deg, #efe4ff, #fbf7ff);
-            color: #332b40;
-            line-height: 1.8;
+            margin: 0;
+            padding: 56px 20px 64px;
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            font-size: 15.5px;
+            line-height: 1.9;
+            color: #3f3750;
             text-align: center;
+            background:
+                radial-gradient(1100px 520px at 12% -8%, #fbf1ff 0%, rgba(251, 241, 255, 0) 62%),
+                radial-gradient(900px 480px at 108% 6%, #fff4e6 0%, rgba(255, 244, 230, 0) 58%),
+                linear-gradient(165deg, #efe6fb 0%, #faf6ff 48%, #fdf6ee 100%);
+            background-attachment: fixed;
         }
 
         /* 主内容卡片：按要求声明，仅背景色改为薄雾紫 */
@@ -21,86 +28,227 @@
             max-width: 720px;
         }
 
-        /* 并集选择器：统一各级标题的颜色与字间距 */
+        /* 并集选择器：统一各级标题的字体与颜色 */
         h1, h2, h3, h4, h5, h6 {
-            color: #4a3a6b;
-            letter-spacing: 1px;
+            font-family: Georgia, "Times New Roman", "Songti SC", SimSun, serif;
+            color: #463663;
+            font-weight: 600;
+            letter-spacing: 0.04em;
         }
 
-        /* 类选择器：居中与右对齐 */
-        .center {
-            text-align: center;
+        /* 伪元素：强调每个区块的第一行 */
+        div::first-line {
+            color: #5b3f7a;
+            letter-spacing: 0.01em;
         }
 
-        .right {
-            text-align: right;
-        }
-
-        /* ID 选择器：只作用在 p 标签、id 为 intro 的段落，作为重要提示强调 */
-        p#intro {
+        /* 伪元素：段落首字放大 */
+        p::first-letter {
             font-size: 140%;
-            font-weight: bold;
             color: #7a3fa8;
         }
 
-        /* 活动介绍的普通段落 */
-        .intro-text {
-            line-height: 1.7;
-            letter-spacing: 0.5px;
-        }
-
-        .section-title {
+        /* ---------- 顶部标题区 ---------- */
+        .masthead {
+            padding: 52px 48px 30px;
             text-align: center;
         }
 
-        /* 表格：用背景色与行高区分层次 */
+        .kicker {
+            margin: 0 0 18px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 11px;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: #9b8ab5;
+        }
+
+        h1 {
+            margin: 0 0 14px;
+            font-size: 31px;
+            line-height: 1.5;
+            letter-spacing: 0.06em;
+        }
+
+        .subtitle {
+            margin: 0;
+            font-size: 12.5px;
+            letter-spacing: 0.2em;
+            color: #8a7aa4;
+        }
+
+        /* 分隔线：用渐变模拟，不使用边框 */
+        .rule {
+            height: 1px;
+            margin: 0 48px;
+            background: linear-gradient(90deg, rgba(184, 160, 214, 0) 0%, #c3aee2 22%, #c3aee2 78%, rgba(184, 160, 214, 0) 100%);
+        }
+
+        /* ---------- 通用区块 ---------- */
+        .section {
+            padding: 40px 48px 34px;
+            text-align: left;
+        }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 10.5px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #a08cbd;
+        }
+
+        h2 {
+            margin: 0 0 20px;
+            font-size: 22px;
+            line-height: 1.6;
+        }
+
+        h3 {
+            margin: 0 0 18px;
+            padding-left: 12px;
+            border-left: 3px solid #b79ce0;
+            font-size: 16px;
+            letter-spacing: 0.06em;
+        }
+
+        .section p {
+            margin: 0 0 15px;
+        }
+
+        .lead {
+            color: #4a4260;
+        }
+
+        .lead::first-letter {
+            float: left;
+            padding: 5px 9px 0 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 46px;
+            line-height: 0.92;
+            color: #6b3b96;
+        }
+
+        .quote {
+            margin: 22px 0 20px;
+            padding: 0 0 0 16px;
+            border-left: 2px solid #d9c9f0;
+            color: #6a5f80;
+            font-style: italic;
+        }
+
+        /* ID 选择器：只作用于 p 标签，作为重要提示强调 */
+        p#intro {
+            margin: 24px 0 0;
+            padding: 15px 18px;
+            background: #fdfbff;
+            border: 1px dashed #cbb6ea;
+            font-size: 15px;
+            font-weight: 600;
+            color: #5b2f8f;
+            letter-spacing: 0.02em;
+        }
+
+        /* ---------- 报名表格 ---------- */
         table {
             width: 100%;
-            background-color: #fbf7ff;
-            font-size: 90%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: #fdfbff;
+            box-shadow: 0 10px 24px rgba(74, 58, 107, 0.07);
         }
 
         th {
-            background-color: #e4d6ff;
-            font-weight: bold;
+            padding: 12px;
+            border-bottom: 1px solid #d9cbf2;
+            background: #e8ddfb;
+            color: #4b3a6b;
             text-align: left;
-            line-height: 2.2;
+            font-weight: 600;
+            letter-spacing: 0.06em;
         }
 
         td {
-            line-height: 2.0;
+            padding: 12px;
+            border-bottom: 1px solid #efe7fb;
+            color: #4a4260;
         }
 
-        /* 斑马纹与整行高亮 */
-        table tr:nth-child(even) {
-            background-color: #f6f0ff;
+        table tr:last-child td {
+            border-bottom: none;
         }
 
-        table tr:hover {
-            background-color: #e8dcff;
+        table tr:nth-child(even) td {
+            background: #f8f4ff;
         }
 
-        /* 后代选择器：div 里的 table 里的 a，只突出表格中的作品链接 */
+        table tr:hover td {
+            background: #f1e9ff;
+        }
+
+        /* 后代选择器：只有 div 里 table 里的 a 才变成作品链接样式 */
         div table a {
-            font-weight: bold;
-            font-size: 110%;
             color: #6b2f96;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px solid #d6c2f0;
         }
 
-        /* 链接伪类 */
+        div table a:hover {
+            border-bottom-color: #6b2f96;
+        }
+
+        .num {
+            width: 52px;
+            text-align: center;
+            color: #9b8ab5;
+        }
+
+        .type {
+            white-space: nowrap;
+            color: #6a5f80;
+        }
+
+        .state-ok {
+            color: #3f7d5b;
+        }
+
+        .state-wait {
+            color: #9a6b26;
+        }
+
+        .state-back {
+            color: #8a8298;
+        }
+
+        /* ---------- 页面链接区 ---------- */
+        .links {
+            padding: 36px 48px 42px;
+            text-align: center;
+        }
+
+        .links div {
+            margin-top: 4px;
+        }
+
+        a {
+            transition: background-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+        }
+
         a:link {
             color: #7a3fa8;
             text-decoration: none;
         }
 
         a:visited {
-            color: #6f7a52;
+            color: #6f6a8f;
             text-decoration: none;
         }
 
         a:hover {
             color: #b23fa8;
-            text-decoration: underline;
+            text-decoration: none;
         }
 
         a:active {
@@ -108,45 +256,94 @@
             text-decoration: underline;
         }
 
-        /* 带类名的链接：重点与次要链接 */
-        a.red:link {
-            color: #c2447a;
+        /* 带类名的链接：两个胶囊按钮 */
+        a.red,
+        a.blue {
+            display: inline-block;
+            margin: 8px 6px;
+            padding: 11px 24px;
+            border-radius: 999px;
+            font-size: 14.5px;
+            letter-spacing: 0.04em;
+        }
+
+        a.red {
+            color: #8e3b62;
+            background: #fdeaf3;
+            box-shadow: inset 0 0 0 1px #f2cddf, 0 4px 12px rgba(142, 59, 98, 0.08);
+        }
+
+        a.blue {
+            color: #3d5f9a;
+            background: #eaf1fd;
+            box-shadow: inset 0 0 0 1px #cdd9f2, 0 4px 12px rgba(61, 95, 154, 0.08);
+        }
+
+        a.red:hover {
+            color: #7c2f52;
+            background: #fbdcec;
+            box-shadow: inset 0 0 0 1px #eab8d2, 0 8px 18px rgba(142, 59, 98, 0.16);
+        }
+
+        a.blue:hover {
+            color: #33538a;
+            background: #dfe9fc;
+            box-shadow: inset 0 0 0 1px #bccbef, 0 8px 18px rgba(61, 95, 154, 0.16);
         }
 
         a.red:active {
             color: #3046a1;
         }
 
-        a.blue:link {
-            color: #3f6fa8;
-        }
-
         a.blue:active {
             color: #a53aa4;
         }
 
-        /* 伪元素：段落首字放大，营造杂志排版感 */
-        p::first-letter {
-            font-size: 180%;
-            color: #8a3fb0;
-        }
-
-        /* 伪元素：div 的第一行高亮 */
-        div::first-line {
-            color: #5b3f7a;
-            font-weight: bold;
-        }
-
-        /* 底部公告文字略小，层次更清晰 */
+        /* ---------- 底部公告区 ---------- */
         .notice {
-            font-size: 90%;
-            line-height: 1.6;
+            padding: 30px 48px 46px;
+            border-top: 1px solid #e4d9f6;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 100%);
+            font-size: 12.5px;
+            line-height: 2.1;
+            color: #6a6080;
         }
 
-        /* 分隔线：用渐变模拟，不使用 border */
-        .divider {
-            height: 1px;
-            background: linear-gradient(to right, rgba(74, 58, 107, 0), rgba(74, 58, 107, 0.6), rgba(74, 58, 107, 0));
+        /* ---------- 窄屏适配 ---------- */
+        @media (max-width: 640px) {
+            body {
+                padding: 24px 12px 32px;
+            }
+
+            .masthead,
+            .section,
+            .links,
+            .notice {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+
+            .rule {
+                margin: 0 22px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 19px;
+            }
+
+            table {
+                font-size: 12.5px;
+            }
+
+            th,
+            td {
+                padding: 9px 8px;
+            }
+
         }
     </style>
 </head>
@@ -154,26 +351,29 @@
 
 <div class="page">
 
-    <!-- 顶部标题区 -->
-    <div class="center">
+    <!-- ① 顶部标题区 -->
+    <div class="masthead">
+        <p class="kicker">City Bookshop &nbsp;·&nbsp; Salon No.12</p>
         <h1>原创小说交流会 · Writer's Salon</h1>
+        <p class="subtitle">每两周一次 · 把写了一半的小说带上桌</p>
     </div>
 
-    <div class="divider"></div><br>
+    <div class="rule"></div>
 
-    <!-- 活动介绍区 -->
-    <div>
-        <h2 id="intro" class="center">本期主题：写给城市的一封未寄出的信</h2>
+    <!-- ② 活动介绍区 -->
+    <div class="section">
+        <p class="eyebrow">Intro &nbsp;/&nbsp; 活动介绍</p>
+        <h2 id="intro">本期主题：写给城市的一封未寄出的信</h2>
 
-        <p class="intro-text right">
+        <p class="lead">
             本周五晚七点，原创小说交流会在城市书房三层亮起一排暖灯。桌上摊着尚未定稿的手稿，笔尖划过纸面的沙沙声，是这场聚会最动听的开场白。
         </p>
 
-        <p class="intro-text center">
-            我们不谈销量，也不比名气，只把各自写了一半的小说带上桌：有人把悬疑的线索藏进雨夜的旧楼，有人让奇幻的潮水漫过一座图书馆，也有人老老实实写楼下修车师傅的一天。你会读到陌生的句子里，熟悉的自己。
+        <p class="quote">
+            我们不谈销量，也不比名气，只把各自写了一半的小说带上桌：有人把悬疑的线索藏进雨夜的旧楼，有人让奇幻的潮水漫过一座图书馆，也有人老老实实写楼下修车师傅的一天。
         </p>
 
-        <p class="intro-text">
+        <p>
             现场设「十分钟即兴写作」，抽到题签就当场落笔，写完互相传阅；随后是作品点评环节，由三位老社员分别从人物、节奏、语言三个角度递上一页纸的手写意见。无论你写奇幻、现实还是悬疑，都欢迎把新章节带来，让它第一次被人从头读完。
         </p>
 
@@ -182,71 +382,69 @@
         </p>
     </div>
 
-    <br><div class="divider"></div><br>
+    <div class="rule"></div>
 
-    <!-- 活动报名信息表格区 -->
-    <div>
-        <h3 class="section-title">本期报名名单</h3>
+    <!-- ③ 活动报名信息表格区 -->
+    <div class="section">
+        <p class="eyebrow">Roster &nbsp;/&nbsp; 报名情况</p>
+        <h3>本期报名名单</h3>
 
         <table>
             <tr>
-                <th>编号</th>
+                <th class="num">编号</th>
                 <th>笔名 / 姓名</th>
                 <th>作品类型</th>
                 <th>报名作品</th>
                 <th>报名状态</th>
             </tr>
             <tr>
-                <td>01</td>
+                <td class="num">01</td>
                 <td>沈苇</td>
-                <td>现实</td>
+                <td class="type">现实</td>
                 <td><a href="https://example.com/drafts/01">《旧城改造日记》</a></td>
-                <td>已确认席位</td>
+                <td class="state-ok">已确认席位</td>
             </tr>
             <tr>
-                <td>02</td>
+                <td class="num">02</td>
                 <td>ShadowInk</td>
-                <td>悬疑</td>
+                <td class="type">悬疑</td>
                 <td><a href="https://example.com/drafts/02">《第七个读者》</a></td>
-                <td>已确认席位</td>
+                <td class="state-ok">已确认席位</td>
             </tr>
             <tr>
-                <td>03</td>
+                <td class="num">03</td>
                 <td>林小满</td>
-                <td>奇幻</td>
+                <td class="type">奇幻</td>
                 <td><a href="https://example.com/drafts/03">《潮汐图书馆》</a></td>
-                <td>待确认</td>
+                <td class="state-wait">待确认</td>
             </tr>
             <tr>
-                <td>04</td>
+                <td class="num">04</td>
                 <td>周叙</td>
-                <td>现实</td>
+                <td class="type">现实</td>
                 <td>《母亲的花》</td>
-                <td>候补名单</td>
+                <td class="state-back">候补名单</td>
             </tr>
         </table>
     </div>
 
-    <br><div class="divider"></div><br>
+    <div class="rule"></div>
 
-    <!-- 页面链接区 -->
-    <div class="center">
-        <p>
+    <!-- ④ 页面链接区 -->
+    <div class="links">
+        <p class="eyebrow">Links &nbsp;/&nbsp; 相关入口</p>
+        <div>
             <a class="red" href="https://hongchenwusdnu.github.io/bookstore/job4.html">查看往期交流会现场与创作手稿</a><br>
             <a class="blue" href="https://xxxzboring.github.io/web/zhaofei-0406-work2.html">在线咨询小说创作与投稿答疑</a>
-        </p>
+        </div>
     </div>
 
-    <br><div class="divider"></div><br>
-
-    <!-- 底部公告区 -->
+    <!-- ⑤ 底部公告区 -->
     <div class="notice">
         原创小说交流会地址：槐荫区文华路 27 号城市书房三层，地铁四号线「文书馆站」B 口出后步行五分钟。<br>
         活动时间：本周五 19:00 - 21:30，18:40 开始签到；迟到者请在门外稍候，等即兴写作开场后再入场。<br>
         温馨提醒：请自带一支顺手的笔和两份手稿复印件，现场不提供打印；篇幅超过两千字的作品，建议只带选段。
     </div>
-
-    <br>
 
 </div>
 
